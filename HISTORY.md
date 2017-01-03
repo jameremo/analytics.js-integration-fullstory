@@ -1,3 +1,9 @@
+2.1.0 / 2017-01-03
+==================
+
+  * Modernize FullStory's snippet
+  * Ignore objects or arrays in traits
+
 2.0.0 / 2016-06-21
 ==================
 

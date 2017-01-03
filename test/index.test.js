@@ -11,7 +11,8 @@ describe('FullStory', function() {
   var fullstory;
   var options = {
     org: '1JO',
-    debug: false
+    debug: false,
+    namespace: 'FS'
   };
 
   beforeEach(function() {
@@ -41,25 +42,31 @@ describe('FullStory', function() {
     });
 
     describe('#initialize', function() {
-      it('should create window.FS', function() {
+      it('should create window.FS and window.FS.clearUserCookie', function() {
         analytics.assert(!window.FS);
         analytics.initialize();
-        analytics.page();
         analytics.assert(window.FS);
+        analytics.assert(window.FS.clearUserCookie);
+      });
+
+      it('should let you override window._fs_namespace via options', function() {
+        fullstory.options.namespace = 'hi';
+        analytics.initialize();
+        analytics.assert(window.hi);
+        analytics.assert(window.hi.clearUserCookie);
       });
 
       it('should call #load', function() {
         analytics.initialize();
-        analytics.page();
         analytics.called(fullstory.load);
       });
     });
   });
 
   describe('after loading', function() {
-    beforeEach(function() {
+    beforeEach(function(done) {
+      analytics.once('ready', done);
       analytics.initialize();
-      analytics.page();
     });
 
     describe('#identify', function() {
@@ -122,14 +129,14 @@ describe('FullStory', function() {
         analytics.called(window.FS.identify, 'id3', { displayName: 'Steven', registered_bool: true });
       });
 
-      it('should pass arrays through un-tagged', function() {
-        analytics.identify('id3', { teams: ['eng', 'redsox'] });
-        analytics.called(window.FS.identify, 'id3', { teams: [ 'eng', 'redsox'] });
+      it('should skip arrays entirely', function() {
+        analytics.identify('id3', { ok: 'string', teams: ['eng', 'redsox'] });
+        analytics.called(window.FS.identify, 'id3', { ok_str: 'string' });
       });
 
-      it('should pass user objects through un-tagged', function() {
-        analytics.identify('id3', { account: { level: 'premier', avg_annual: 30000 } });
-        analytics.called(window.FS.identify, 'id3', { account: { level: 'premier', avg_annual: 30000 } });
+      it('should skip user objects entirely', function() {
+        analytics.identify('id3', { ok: 7, account: { level: 'premier', avg_annual: 30000 } });
+        analytics.called(window.FS.identify, 'id3', { ok_int: 7 });
       });
 
       it('should respect existing type tags', function() {
