@@ -11,8 +11,7 @@ describe('FullStory', function() {
   var fullstory;
   var options = {
     org: '1JO',
-    debug: false,
-    namespace: 'FS'
+    debug: false
   };
 
   beforeEach(function() {
@@ -47,13 +46,6 @@ describe('FullStory', function() {
         analytics.initialize();
         analytics.assert(window.FS);
         analytics.assert(window.FS.clearUserCookie);
-      });
-
-      it('should let you override window._fs_namespace via options', function() {
-        fullstory.options.namespace = 'hi';
-        analytics.initialize();
-        analytics.assert(window.hi);
-        analytics.assert(window.hi.clearUserCookie);
       });
 
       it('should call #load', function() {

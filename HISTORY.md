@@ -1,3 +1,8 @@
+2.1.1 / 2017-01-03
+==================
+
+  * Remove option to override default namespace 
+
 2.1.0 / 2017-01-03
 ==================
 
