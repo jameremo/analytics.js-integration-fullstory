@@ -1,3 +1,12 @@
+
+2.1.3 / 2018-05-01
+==================
+
+  * Remove redundant addition of fs.js
+  * Update recording snippet
+  * Bump a.js-int-tester version to ^3.1.0 (#7)
+  * Pin karma, karma-mocha dev dependencies
+
 2.1.2 / 2017-01-24
 ==================
 
